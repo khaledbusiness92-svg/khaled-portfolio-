@@ -9,6 +9,16 @@ export function proxy(request: NextRequest) {
 
   // Skip API routes, Admin dashboard, Next.js internals, and static public files
   if (
+    pathname === "/login" ||
+    pathname === "/ar/login" ||
+    pathname === "/en/login" ||
+    pathname === "/ar/admin" ||
+    pathname === "/en/admin"
+  ) {
+    return NextResponse.redirect(new URL("/admin", request.url));
+  }
+
+  if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/admin") ||
     pathname.startsWith("/_next") ||
