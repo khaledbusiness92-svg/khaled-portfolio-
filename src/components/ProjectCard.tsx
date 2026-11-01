@@ -47,7 +47,7 @@ export default function ProjectCard({
   const detailHref = `/${locale}/work/${slug}`;
 
   return (
-    <article className="editorial-card group flex flex-col overflow-hidden bg-[#111111]">
+    <article className="editorial-card hover-editorial-lift group flex flex-col overflow-hidden bg-[#111111]">
       {/* Top Meta Bar */}
       <div className="px-4 py-3 border-b border-[#EAE6DF]/8 flex items-center justify-between text-[11px] text-[#777777]">
         <div className="flex items-center gap-2">
@@ -65,7 +65,7 @@ export default function ProjectCard({
       </div>
 
       {/* Artwork Frame — Preserves artwork visibility without aggressive cropping */}
-      <div className="relative bg-[#0D0D0D] overflow-hidden">
+      <div className="relative bg-[#0D0D0D] overflow-hidden group/frame">
         <Link
           href={detailHref}
           className="block relative focus:outline-none"
@@ -78,7 +78,7 @@ export default function ProjectCard({
                 src={project.image}
                 alt={title}
                 loading="lazy"
-                className="w-full h-auto max-h-[540px] object-contain transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                className="w-full h-auto max-h-[540px] object-contain transition-transform duration-700 ease-[var(--ease-editorial)] group-hover:scale-[1.04]"
               />
             </div>
           ) : (
@@ -88,7 +88,7 @@ export default function ProjectCard({
                 src={project.image}
                 alt={title}
                 loading="lazy"
-                className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                className="w-full h-full object-contain transition-transform duration-700 ease-[var(--ease-editorial)] group-hover:scale-[1.04]"
               />
             </div>
           )}
@@ -105,7 +105,7 @@ export default function ProjectCard({
             }}
             aria-label={dict.selectedWorks.quickPreviewAria(title)}
             title={dict.selectedWorks.quickPreview}
-            className="absolute bottom-3 end-3 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#0A0A0A]/85 hover:bg-[#D7C9B2] text-[#EAE6DF] hover:text-[#0A0A0A] border border-[#EAE6DF]/15 text-xs font-medium backdrop-blur-sm transition-colors cursor-pointer"
+            className="absolute bottom-3 end-3 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#0A0A0A]/90 hover:bg-[#D7C9B2] text-[#EAE6DF] hover:text-[#0A0A0A] border border-[#EAE6DF]/15 text-xs font-medium backdrop-blur-sm transition-all duration-300 opacity-90 sm:opacity-0 group-hover:opacity-100 transform sm:translate-y-1.5 group-hover:translate-y-0 cursor-pointer shadow-lg"
           >
             <Eye className="w-3.5 h-3.5" />
             <span>{dict.selectedWorks.quickPreview}</span>

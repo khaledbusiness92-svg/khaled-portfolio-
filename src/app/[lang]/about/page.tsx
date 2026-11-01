@@ -123,7 +123,7 @@ export default async function LocalizedAboutPage({ params }: AboutPageProps) {
 
               <Link
                 href={`/${locale}/work`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded border border-[#EAE6DF]/15 bg-[#202020] hover:bg-[#D7C9B2] text-[#EAE6DF] hover:text-[#0A0A0A] text-xs sm:text-sm font-medium transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded border border-[#EAE6DF]/15 bg-[#202020] hover:bg-[#D7C9B2] text-[#EAE6DF] hover:text-[#0A0A0A] text-xs sm:text-sm font-medium transition-all duration-300 hover-editorial-lift"
               >
                 <span>
                   {dict.about.browseFullArchive(data.projects.length)}

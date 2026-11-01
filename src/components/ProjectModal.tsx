@@ -145,7 +145,7 @@ export default function ProjectModal({
           dialogRef.current?.close();
         }
       }}
-      className="m-auto w-[calc(100%-1.5rem)] max-w-6xl max-h-[92vh] overflow-y-auto rounded-md border border-[#EAE6DF]/15 bg-[#121212] text-[#EAE6DF] shadow-2xl p-0"
+      className="m-auto w-[calc(100%-1.5rem)] max-w-6xl max-h-[92vh] overflow-y-auto rounded-md border border-[#EAE6DF]/15 bg-[#121212] text-[#EAE6DF] shadow-2xl p-0 animate-editorial-scale backdrop:backdrop-blur-md backdrop:bg-[#0A0A0A]/85 backdrop:transition-opacity backdrop:duration-300"
     >
       <div className="flex flex-col">
         {/* Modal Top Bar */}

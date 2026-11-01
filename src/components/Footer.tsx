@@ -216,7 +216,7 @@ export default function Footer({
             <button
               type="button"
               onClick={scrollToTop}
-              className="p-2 rounded border border-[#EAE6DF]/10 bg-[#141414] text-[#EAE6DF] hover:border-[#D7C9B2] hover:text-[#D7C9B2] transition-colors cursor-pointer"
+              className="p-2.5 rounded border border-[#EAE6DF]/10 bg-[#141414] text-[#EAE6DF] hover:border-[#D7C9B2] hover:bg-[#D7C9B2] hover:text-[#0A0A0A] transition-all duration-300 hover-editorial-lift cursor-pointer"
               aria-label={dict.footer.scrollToTopAria}
               title={dict.footer.scrollToTopAria}
             >

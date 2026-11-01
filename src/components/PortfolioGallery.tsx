@@ -237,7 +237,7 @@ export default function PortfolioGallery({
               return (
                 <article
                   key={project.id}
-                  className={`${colSpanClass} editorial-card group flex flex-col justify-between overflow-hidden bg-[#111111]`}
+                  className={`${colSpanClass} editorial-card hover-editorial-lift scroll-entry-reveal group flex flex-col justify-between overflow-hidden bg-[#111111]`}
                 >
                   {/* Top Editorial Strip */}
                   <div className="px-5 py-3.5 border-b border-[#EAE6DF]/10 flex items-center justify-between text-xs text-[#777777]">
@@ -271,7 +271,7 @@ export default function PortfolioGallery({
                         src={project.image}
                         alt={projectTitle}
                         loading="lazy"
-                        className="max-h-[440px] w-auto max-w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                        className="max-h-[440px] w-auto max-w-full object-contain transition-transform duration-700 ease-[var(--ease-editorial)] group-hover:scale-[1.04]"
                       />
                     </Link>
 
@@ -281,7 +281,7 @@ export default function PortfolioGallery({
                       aria-label={dict.selectedWorks.quickPreviewAria(
                         projectTitle
                       )}
-                      className="absolute bottom-3 end-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#0A0A0A]/85 hover:bg-[#D7C9B2] text-[#EAE6DF] hover:text-[#0A0A0A] border border-[#EAE6DF]/15 text-xs font-medium backdrop-blur-sm transition-colors cursor-pointer"
+                      className="absolute bottom-3 end-3 inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-[#0A0A0A]/90 hover:bg-[#D7C9B2] text-[#EAE6DF] hover:text-[#0A0A0A] border border-[#EAE6DF]/15 text-xs font-medium backdrop-blur-sm transition-all duration-300 opacity-90 sm:opacity-0 group-hover:opacity-100 transform sm:translate-y-1.5 group-hover:translate-y-0 cursor-pointer shadow-lg"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       <span>{dict.selectedWorks.quickPreview}</span>

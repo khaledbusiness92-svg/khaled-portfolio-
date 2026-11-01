@@ -7,6 +7,7 @@ import {
 } from "@/lib/portfolio";
 import { Wrench, Palette, Award } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import MotionReveal from "./MotionReveal";
 
 interface SkillsProps {
   skills: SkillCategory[];
@@ -49,10 +50,15 @@ export default function SkillsSection({
           {skills.map((skillGroup, idx) => {
             const groupTitle = getLocalizedSkillGroupTitle(skillGroup, locale);
             return (
-              <div
+              <MotionReveal
                 key={idx}
-                className="editorial-panel p-6 sm:p-8 bg-[#121212] border border-[#EAE6DF]/12 flex flex-col justify-between"
+                direction="up"
+                delayMs={idx * 120}
+                durationMs={750}
               >
+                <div
+                  className="editorial-panel hover-editorial-lift p-6 sm:p-8 bg-[#121212] border border-[#EAE6DF]/12 flex flex-col justify-between h-full"
+                >
                 <div>
                   <div className="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-[#EAE6DF]/10">
                     <div>
@@ -92,7 +98,7 @@ export default function SkillsSection({
                             aria-valuemax={100}
                           >
                             <div
-                              className="h-full bg-[#D7C9B2]"
+                              className="h-full bg-[#D7C9B2] transition-all duration-1000 ease-[var(--ease-editorial)]"
                               style={{ width: `${item.percent}%` }}
                             />
                           </div>
@@ -102,8 +108,9 @@ export default function SkillsSection({
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </MotionReveal>
+          );
+        })}
         </div>
       </div>
     </section>

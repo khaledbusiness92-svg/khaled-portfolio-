@@ -52,7 +52,7 @@ export default function CategoryFilters({
               type="button"
               onClick={() => onSelectCategory(cat.id)}
               aria-pressed={isActive}
-              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-md text-xs sm:text-sm font-medium transition-colors cursor-pointer border ${
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-md text-xs sm:text-sm font-medium transition-all duration-300 hover-editorial-lift cursor-pointer border ${
                 isActive
                   ? "bg-[#D7C9B2] text-[#0A0A0A] border-[#D7C9B2] font-bold"
                   : "bg-[#141414] text-[#EAE6DF] border-[#EAE6DF]/10 hover:border-[#D7C9B2]/50 hover:bg-[#202020]"

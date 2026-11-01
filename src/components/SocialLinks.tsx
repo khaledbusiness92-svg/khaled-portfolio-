@@ -83,7 +83,7 @@ export default function SocialLinks({
               target={item.external ? "_blank" : undefined}
               rel={item.external ? "noopener noreferrer" : undefined}
               aria-label={item.ariaLabel}
-              className="editorial-card p-5 flex items-start justify-between gap-4 group"
+              className="editorial-card hover-editorial-lift p-5 flex items-start justify-between gap-4 group"
             >
               <div className="space-y-1.5 min-w-0">
                 <div className="flex items-center gap-2 text-xs text-[#777777]">
@@ -119,7 +119,7 @@ export default function SocialLinks({
             target={item.external ? "_blank" : undefined}
             rel={item.external ? "noopener noreferrer" : undefined}
             aria-label={item.ariaLabel}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded border border-[#EAE6DF]/12 bg-[#141414] hover:border-[#D7C9B2] text-xs font-medium text-[#EAE6DF] hover:text-[#D7C9B2] transition-colors"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded border border-[#EAE6DF]/12 bg-[#141414] hover:border-[#D7C9B2] text-xs font-medium text-[#EAE6DF] hover:text-[#D7C9B2] transition-all duration-300 hover-editorial-lift"
           >
             <Icon className="w-3.5 h-3.5 text-[#D7C9B2]" />
             <span>{item.label}</span>
