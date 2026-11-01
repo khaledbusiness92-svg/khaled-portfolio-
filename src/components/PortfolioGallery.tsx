@@ -196,7 +196,21 @@ export default function PortfolioGallery({
 
           {/* Asymmetrical Editorial Grid for Selected Works */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
-            {selectedWorks.map((project, idx) => {
+            {selectedWorks.length === 0 ? (
+              <div className="col-span-12 py-16 px-6 text-center border border-dashed border-[#EAE6DF]/15 rounded-2xl bg-[#111111]/40 space-y-3">
+                <p className="text-[#D7C9B2] font-serif text-lg tracking-wide">
+                  {locale === "ar"
+                    ? "المعرض جاهز لاستقبال أعمالك الفنية الجديدة"
+                    : "Portfolio is ready for your creative artworks"}
+                </p>
+                <p className="text-xs sm:text-sm text-[#777777] max-w-md mx-auto">
+                  {locale === "ar"
+                    ? "يمكنك البدء برفع الأعمال والمشاريع بسهولة من خلال لوحة تحكم الإدارة."
+                    : "You can start uploading projects and media anytime from the admin dashboard."}
+                </p>
+              </div>
+            ) : (
+              selectedWorks.map((project, idx) => {
               const slug = getProjectSlug(project);
               const categoryName = getLocalizedCategoryName(
                 project.category,
@@ -303,7 +317,7 @@ export default function PortfolioGallery({
                   </div>
                 </article>
               );
-            })}
+            }))}
           </div>
 
           {/* Bottom View All CTA */}

@@ -449,7 +449,7 @@ export function getPortfolioData(): PortfolioData {
     }
 
     // 7. Ensure Media Catalog
-    if (!data.media || data.media.length === 0) {
+    if (!data.media) {
       data.media = scanExistingMedia(data.media);
       needsSave = true;
     }
