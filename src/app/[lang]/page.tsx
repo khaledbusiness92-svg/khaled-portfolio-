@@ -17,7 +17,6 @@ export function generateStaticParams() {
   return [{ lang: "ar" }, { lang: "en" }];
 }
 
-export const instant = false;
 
 export default async function LocalizedHomePage({ params }: HomePageProps) {
   const { lang: rawLang } = await params;
@@ -26,7 +25,7 @@ export default async function LocalizedHomePage({ params }: HomePageProps) {
   }
   const locale: Locale = rawLang;
 
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const featuredProject =
     data.projects.find((p) => p.featured) || data.projects[0];
 

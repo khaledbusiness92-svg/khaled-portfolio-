@@ -32,7 +32,7 @@ export async function generateMetadata({
   const locale: Locale = isValidLocale(rawLang) ? rawLang : "ar";
   const dict = getDictionary(locale);
 
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const aboutConfig = data.pages?.about;
 
   return {
@@ -53,7 +53,6 @@ export async function generateMetadata({
   };
 }
 
-export const instant = false;
 
 export default async function LocalizedAboutPage({ params }: AboutPageProps) {
   const { lang: rawLang } = await params;
@@ -64,7 +63,7 @@ export default async function LocalizedAboutPage({ params }: AboutPageProps) {
   const dict = getDictionary(locale);
   const DirectionalArrow = locale === "ar" ? ArrowUpLeft : ArrowUpRight;
 
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const localizedProfile = getLocalizedProfile(data.profile, locale);
   const highlightedProjects = data.projects
     .filter((p) => p.featured && p.published !== false)

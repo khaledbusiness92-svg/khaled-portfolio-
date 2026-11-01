@@ -3,9 +3,10 @@ import { revalidatePath } from "next/cache";
 import { getPortfolioData, savePortfolioData } from "@/lib/portfolio-server";
 import { isAuthenticatedAdmin } from "@/lib/auth-server";
 
+
 export async function GET() {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     // Exclude security credentials from public response
     const publicData = {
       brand: data.brand,
@@ -29,7 +30,7 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   try {
-    const currentData = getPortfolioData();
+    const currentData = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(currentData);
     if (!isAuth) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

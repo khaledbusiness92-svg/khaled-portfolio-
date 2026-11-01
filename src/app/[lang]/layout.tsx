@@ -29,7 +29,7 @@ export async function generateMetadata({
   const { lang: rawLang } = await params;
   const locale: Locale = isValidLocale(rawLang) ? rawLang : "ar";
   const dict = getDictionary(locale);
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
 
   const brand = data.brand;
   const artistName =

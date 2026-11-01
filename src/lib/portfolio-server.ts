@@ -7,14 +7,12 @@ import {
   NavigationItem,
   FooterSettings,
   PageConfig,
-  MediaAsset,
   RevisionSnapshot,
 } from "./types";
 import { ensureAdminAuth } from "./auth-server";
 import { getSupabaseAdmin } from "./supabase";
 
 const dataFilePath = path.join(process.cwd(), "src", "data", "portfolio.json");
-const publicDir = path.join(process.cwd(), "public");
 
 let inMemoryData: PortfolioData | null = null;
 
@@ -312,74 +310,40 @@ function getDefaultPages(): Record<string, PageConfig> {
   };
 }
 
-/**
- * Automatically catalogs files from public/images and public/uploads into MediaAssets
- */
-function scanExistingMedia(existingMedia?: MediaAsset[]): MediaAsset[] {
-  const mediaMap = new Map<string, MediaAsset>();
-
-  if (existingMedia && Array.isArray(existingMedia)) {
-    for (const m of existingMedia) {
-      if (m.url) mediaMap.set(m.url, m);
-    }
-  }
-
-  const scanFolder = (dir: string, basePublicPath: string) => {
-    if (!fs.existsSync(dir)) return;
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        scanFolder(fullPath, `${basePublicPath}/${entry.name}`);
-      } else if (
-        /\.(jpg|jpeg|png|webp|gif|svg|avif)$/i.test(entry.name) &&
-        !entry.name.startsWith(".")
-      ) {
-        const publicUrl = `${basePublicPath}/${entry.name}`;
-        if (!mediaMap.has(publicUrl)) {
-          let size = 0;
-          try {
-            size = fs.statSync(fullPath).size;
-          } catch {
-            // ignore
-          }
-          const ext = path.extname(entry.name).toLowerCase();
-          const mimeType =
-            ext === ".png"
-              ? "image/png"
-              : ext === ".webp"
-              ? "image/webp"
-              : ext === ".svg"
-              ? "image/svg+xml"
-              : ext === ".gif"
-              ? "image/gif"
-              : "image/jpeg";
-
-          const cleanBase = path.parse(entry.name).name.replace(/[-_]/g, " ");
-
-          mediaMap.set(publicUrl, {
-            id: `media-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-            filename: entry.name,
-            url: publicUrl,
-            mimeType,
-            sizeBytes: size,
-            alt: cleanBase,
-            altEn: cleanBase,
-            uploadedAt: new Date().toISOString(),
-          });
-        }
-      }
-    }
-  };
-
-  scanFolder(path.join(publicDir, "images"), "/images");
-  scanFolder(path.join(publicDir, "uploads"), "/uploads");
-
-  return Array.from(mediaMap.values());
+function ensurePortfolioDefaults(data: PortfolioData): void {
+  if (!data.brand) data.brand = { ...DEFAULT_BRAND };
+  if (!data.siteSettings) data.siteSettings = { ...DEFAULT_SITE_SETTINGS };
+  if (!data.navigation || data.navigation.length === 0) data.navigation = [...DEFAULT_NAVIGATION];
+  if (!data.footer) data.footer = { ...DEFAULT_FOOTER };
+  if (!data.pages || Object.keys(data.pages).length === 0) data.pages = getDefaultPages();
+  if (!data.projects) data.projects = [];
+  if (!data.media) data.media = [];
+  if (!data.revisions) data.revisions = [];
+  if (!data.categories) data.categories = [];
+  if (!data.skills) data.skills = [];
+  ensureAdminAuth(data);
 }
 
-export async function getPortfolioDataAsync(): Promise<PortfolioData> {
+export function getLocalPortfolioData(): PortfolioData {
+  if (inMemoryData) {
+    return inMemoryData;
+  }
+  try {
+    if (!fs.existsSync(dataFilePath)) {
+      throw new Error("Portfolio data file does not exist");
+    }
+    const raw = fs.readFileSync(dataFilePath, "utf-8");
+    const data: PortfolioData = JSON.parse(raw);
+    ensurePortfolioDefaults(data);
+    inMemoryData = data;
+    return data;
+  } catch (error) {
+    console.error("Error reading local portfolio data:", error);
+    throw error;
+  }
+}
+
+export async function getPortfolioData(): Promise<PortfolioData> {
   const supabase = getSupabaseAdmin();
   if (supabase) {
     try {
@@ -390,101 +354,19 @@ export async function getPortfolioDataAsync(): Promise<PortfolioData> {
         .single();
 
       if (!error && data?.data) {
-        inMemoryData = data.data as PortfolioData;
+        const parsed = data.data as PortfolioData;
+        ensurePortfolioDefaults(parsed);
+        inMemoryData = parsed;
         return inMemoryData;
       }
     } catch (err) {
       console.warn("Supabase fetch failed, falling back to local:", err);
     }
   }
-  return getPortfolioData();
+  return getLocalPortfolioData();
 }
 
-export function getPortfolioData(): PortfolioData {
-  if (inMemoryData) {
-    return inMemoryData;
-  }
-  try {
-    if (!fs.existsSync(dataFilePath)) {
-      throw new Error("Portfolio data file does not exist");
-    }
-    const raw = fs.readFileSync(dataFilePath, "utf-8");
-    const data: PortfolioData = JSON.parse(raw);
-
-    let needsSave = false;
-
-    // 1. Ensure Auth Security
-    if (ensureAdminAuth(data)) {
-      needsSave = true;
-    }
-
-    // 2. Ensure Brand Settings
-    if (!data.brand) {
-      data.brand = { ...DEFAULT_BRAND };
-      needsSave = true;
-    }
-
-    // 3. Ensure Site Settings
-    if (!data.siteSettings) {
-      data.siteSettings = { ...DEFAULT_SITE_SETTINGS };
-      needsSave = true;
-    }
-
-    // 4. Ensure Navigation
-    if (!data.navigation || data.navigation.length === 0) {
-      data.navigation = [...DEFAULT_NAVIGATION];
-      needsSave = true;
-    }
-
-    // 5. Ensure Footer Settings
-    if (!data.footer) {
-      data.footer = { ...DEFAULT_FOOTER };
-      needsSave = true;
-    }
-
-    // 6. Ensure Pages
-    if (!data.pages || Object.keys(data.pages).length === 0) {
-      data.pages = getDefaultPages();
-      needsSave = true;
-    }
-
-    // 7. Ensure Media Catalog
-    if (!data.media) {
-      data.media = scanExistingMedia(data.media);
-      needsSave = true;
-    }
-
-    // 8. Ensure Revisions array
-    if (!data.revisions) {
-      data.revisions = [];
-      needsSave = true;
-    }
-
-    // 9. Ensure projects have published flag & order
-    if (data.projects && Array.isArray(data.projects)) {
-      data.projects.forEach((p, idx) => {
-        if (p.published === undefined) {
-          p.published = true;
-          needsSave = true;
-        }
-        if (p.order === undefined) {
-          p.order = idx + 1;
-          needsSave = true;
-        }
-      });
-    }
-
-    if (needsSave) {
-      savePortfolioData(data, "System", "Initial CMS Schema Migration");
-    }
-
-    inMemoryData = data;
-    return data;
-  } catch (error) {
-    console.error("Error reading portfolio data:", error);
-    throw error;
-  }
-}
+export const getPortfolioDataAsync = getPortfolioData;
 
 /**
  * Saves data atomically to disk and synchronizes with Supabase database
@@ -544,9 +426,11 @@ export async function savePortfolioData(
           });
         if (upsertErr) {
           console.error("Supabase database save error:", upsertErr.message);
+          throw new Error(`فشل الحفظ في قاعدة بيانات سوبابيز: ${upsertErr.message}`);
         }
       } catch (sbErr) {
         console.error("Supabase database connection error:", sbErr);
+        throw sbErr;
       }
     }
   } catch (error) {

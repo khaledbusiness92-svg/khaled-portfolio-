@@ -29,9 +29,10 @@ const ALLOWED_EXTENSIONS = new Set([
 
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
+
 export async function POST(req: Request) {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
     if (!isAuth) {
       return NextResponse.json(

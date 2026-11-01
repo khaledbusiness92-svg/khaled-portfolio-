@@ -4,9 +4,10 @@ import { getPortfolioData, savePortfolioData } from "@/lib/portfolio-server";
 import { isAuthenticatedAdmin } from "@/lib/auth-server";
 
 
+
 export async function GET() {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
 
     if (!isAuth) {
@@ -28,7 +29,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
 
     if (!isAuth) {

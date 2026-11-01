@@ -10,9 +10,10 @@ import {
 } from "@/lib/auth-server";
 
 
+
 export async function GET() {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
     return NextResponse.json({ authenticated: isAuth });
   } catch {
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
 
     let isValid = false;
 

@@ -3,9 +3,10 @@ import { getPortfolioData } from "@/lib/portfolio-server";
 import { isAuthenticatedAdmin } from "@/lib/auth-server";
 
 
+
 export async function GET() {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
 
     if (!isAuth) {

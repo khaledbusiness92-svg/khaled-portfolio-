@@ -9,9 +9,10 @@ import {
 import { isAuthenticatedAdmin } from "@/lib/auth-server";
 
 
+
 export async function GET(req: Request) {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
 
     if (!isAuth) {
@@ -72,7 +73,7 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
 
     if (!isAuth) {
@@ -127,7 +128,7 @@ export async function PUT(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
 
     if (!isAuth) {

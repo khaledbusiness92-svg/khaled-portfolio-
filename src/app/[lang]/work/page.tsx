@@ -29,7 +29,7 @@ export async function generateMetadata({
   const locale: Locale = isValidLocale(rawLang) ? rawLang : "ar";
   const dict = getDictionary(locale);
 
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const workConfig = data.pages?.work;
 
   const pageTitle =
@@ -54,7 +54,6 @@ export async function generateMetadata({
   };
 }
 
-export const instant = false;
 
 export default async function LocalizedWorkPage({ params }: WorkPageProps) {
   const { lang: rawLang } = await params;
@@ -64,7 +63,7 @@ export default async function LocalizedWorkPage({ params }: WorkPageProps) {
   const locale: Locale = rawLang;
   const dict = getDictionary(locale);
 
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const categoryCount = data.categories.filter((c) => c.id !== "all").length;
 
   const workPage = data.pages?.work;

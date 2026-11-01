@@ -8,9 +8,10 @@ import {
   generateSessionSecret,
 } from "@/lib/auth-server";
 
+
 export async function POST(req: Request) {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
 
     if (!isAuth) {

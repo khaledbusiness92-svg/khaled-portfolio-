@@ -27,7 +27,7 @@ export async function generateMetadata({
   const locale: Locale = isValidLocale(rawLang) ? rawLang : "ar";
   const dict = getDictionary(locale);
 
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const contactConfig = data.pages?.contact;
 
   return {
@@ -48,7 +48,6 @@ export async function generateMetadata({
   };
 }
 
-export const instant = false;
 
 export default async function LocalizedContactPage({
   params,
@@ -60,7 +59,7 @@ export default async function LocalizedContactPage({
   const locale: Locale = rawLang;
   const dict = getDictionary(locale);
 
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const localizedProfile = getLocalizedProfile(data.profile, locale);
 
   const contactPage = data.pages?.contact;

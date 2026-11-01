@@ -4,9 +4,10 @@ import { getPortfolioData, savePortfolioData } from "@/lib/portfolio-server";
 import { isAuthenticatedAdmin } from "@/lib/auth-server";
 import { Project } from "@/lib/types";
 
+
 export async function GET() {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     return NextResponse.json(data.projects || []);
   } catch {
     return NextResponse.json(
@@ -18,7 +19,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const currentData = getPortfolioData();
+    const currentData = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(currentData);
     if (!isAuth) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -87,7 +88,7 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
   try {
-    const currentData = getPortfolioData();
+    const currentData = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(currentData);
     if (!isAuth) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -168,7 +169,7 @@ export async function PUT(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
-    const currentData = getPortfolioData();
+    const currentData = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(currentData);
     if (!isAuth) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

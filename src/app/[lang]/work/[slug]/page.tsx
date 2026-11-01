@@ -34,7 +34,7 @@ interface ProjectPageProps {
 }
 
 export async function generateStaticParams() {
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const paramsList: { lang: Locale; slug: string }[] = [];
 
   for (const lang of LOCALES) {
@@ -65,7 +65,7 @@ export async function generateMetadata({
   const dict = getDictionary(locale);
 
   const decodedSlug = decodeURIComponent(slug);
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const project = data.projects.find(
     (p) => getProjectSlug(p) === decodedSlug || p.id === decodedSlug
   );
@@ -112,7 +112,7 @@ async function ProjectDetailContent({
   const dict = getDictionary(locale);
 
   const decodedSlug = decodeURIComponent(slug);
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
   const projects = data.projects;
 
   const currentIndex = projects.findIndex(
@@ -378,14 +378,13 @@ async function ProjectDetailContent({
   );
 }
 
-export const instant = false;
 
 export default async function LocalizedProjectDetailPage({
   params,
 }: ProjectPageProps) {
   const { lang: rawLang } = await params;
   const locale: Locale = isValidLocale(rawLang) ? rawLang : "ar";
-  const data = getPortfolioData();
+  const data = await getPortfolioData();
 
   return (
     <main className="min-h-screen w-full flex flex-col bg-[#0A0A0A] text-[#EAE6DF] relative overflow-x-hidden">

@@ -5,9 +5,10 @@ import { isAuthenticatedAdmin } from "@/lib/auth-server";
 import { SiteSettings } from "@/lib/types";
 
 
+
 export async function GET() {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
 
     if (!isAuth) {
@@ -29,7 +30,7 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   try {
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     const isAuth = await isAuthenticatedAdmin(data);
 
     if (!isAuth) {
