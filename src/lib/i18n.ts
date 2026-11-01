@@ -489,7 +489,7 @@ export const DICTIONARY = {
       whatsappPrefix: "واتساب:",
       behanceLink: "بيهانس ↗",
       instagramLink: "إنستغرام ↗",
-      copyright: "جميع الحقوق محفوظة © ٢٠٢٦ خالد محمد عبد السميع.",
+      copyright: "جميع الحقوق محفوظة © ٢٠٢٦ خالد صادق.",
       scrollToTopAria: "الرجوع لأعلى الصفحة",
     },
     notFound: {
@@ -762,7 +762,7 @@ export const DICTIONARY = {
       behanceLink: "Behance ↗",
       instagramLink: "Instagram ↗",
       copyright:
-        "© 2026 Khaled Mohamed Abdel Samee. All rights reserved.",
+        "© 2026 Khaled Sadek. All rights reserved.",
       scrollToTopAria: "Scroll back to top",
     },
     notFound: {

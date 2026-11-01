@@ -198,10 +198,39 @@ export default function Footer({
           )}
         </div>
 
-        {/* Bottom Copyright & Scroll to Top */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <div className="flex items-center gap-4 flex-wrap">
+        {/* Bottom Copyright & Developer Credit & Scroll to Top */}
+        <div className="pt-8 flex flex-col lg:flex-row items-center justify-between gap-5 text-xs">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2.5 sm:gap-4 text-center sm:text-start flex-wrap">
             <p className="text-[#777777]">{copyright}</p>
+            <span className="hidden sm:inline text-[#EAE6DF]/15">•</span>
+            <div className="inline-flex items-center gap-1.5 text-[#888888] flex-wrap justify-center sm:justify-start">
+              <span>
+                {locale === "ar"
+                  ? "تصميم وبرمجة الموقع:"
+                  : "Designed & Developed by:"}
+              </span>
+              <span className="text-[#D7C9B2] font-semibold">
+                {locale === "ar" ? "خالد صادق" : "Khaled Sadek"}
+              </span>
+              <span className="text-[#EAE6DF]/15">—</span>
+              <a
+                href="tel:01069918100"
+                className="font-mono text-[#D7C9B2] hover:underline"
+                dir="ltr"
+              >
+                01069918100
+              </a>
+              <a
+                href="https://wa.me/201069918100"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[10px] px-2 py-0.5 rounded bg-[#202020] text-[#D7C9B2] border border-[#EAE6DF]/10 hover:border-[#D7C9B2] hover:bg-[#D7C9B2] hover:text-[#0A0A0A] transition-all font-sans"
+                title={locale === "ar" ? "تواصل مع المطور عبر واتساب" : "Contact Developer via WhatsApp"}
+              >
+                {locale === "ar" ? "واتساب" : "WhatsApp"}
+              </a>
+            </div>
+            <span className="hidden sm:inline text-[#EAE6DF]/15">•</span>
             <Link
               href="/admin"
               className="text-[#777777] hover:text-[#D7C9B2] transition-colors inline-flex items-center gap-1.5 opacity-60 hover:opacity-100 text-[11px]"
@@ -212,7 +241,7 @@ export default function Footer({
             </Link>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={scrollToTop}
